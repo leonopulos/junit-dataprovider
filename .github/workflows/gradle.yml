@@ -23,9 +23,7 @@ jobs:
         run: ./gradlew integTest
   
       - name: Publish Test Results
-        uses: actions/upload-artifact@v3
+        uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          name: test-results
-          path: |
-            **/build/test-results/**/*.xml
+          files: '**/build/test-results/**/*.xml'
