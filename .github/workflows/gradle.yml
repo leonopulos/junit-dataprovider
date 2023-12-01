@@ -1,0 +1,31 @@
+name: Java CI with Gradle
+
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          
+      - name: Run Unit Tests
+        run: ./gradlew clean test
+  
+      - name: Run Integration Tests
+        run: ./gradlew integTest
+  
+      - name: Publish Test Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results
+          path: |
+            **/build/test-results/**/*.xml
